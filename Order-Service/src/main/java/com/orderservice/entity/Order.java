@@ -15,10 +15,11 @@ import java.util.List;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String orderNumber;
+    private String description;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<OrderLineItem> itemsList;
