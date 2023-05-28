@@ -22,8 +22,10 @@ public class ProductDTO {
 
     @NotBlank
     @Size(min = 3, max = 255)
+
     private String name;
     private String description;
+
     @Positive
     private BigDecimal price;
 }
