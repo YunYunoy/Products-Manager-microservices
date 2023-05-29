@@ -2,6 +2,7 @@ package com.orderservice.controller;
 
 import com.orderservice.model.OrderDTO;
 import com.orderservice.service.OrderService;
+import com.orderservice.utils.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,22 +20,20 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    //TODO: check method
     @GetMapping
     public ResponseEntity<List<OrderDTO>> getAllOrders() {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
-    //TODO: check method
     @GetMapping("/{Id}")
     public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long Id) {
         return Optional.of(ResponseEntity.ok(orderService.getOrderById(Id)))
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(NotFoundException::new);
     }
 
     //TODO: check method
     @PostMapping
-    public ResponseEntity<OrderDTO> createOrder(@Validated @RequestBody OrderDTO orderDTO) {
+    public ResponseEntity<OrderDTO> createOrder( @RequestBody OrderDTO orderDTO) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(orderService.createOrder(orderDTO));
     }
@@ -51,7 +50,6 @@ public class OrderController {
         }
     }
 
-    //TODO: check method
     @DeleteMapping("/{Id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long Id) {
         OrderDTO existingOrder = orderService.getOrderById(Id);
