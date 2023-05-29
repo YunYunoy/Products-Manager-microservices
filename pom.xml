@@ -9,6 +9,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>Product-Service</module>
+        <module>InventoryService</module>
+        <module>Order-Service</module>
     </modules>
     <version>1.0-SNAPSHOT</version>
 
