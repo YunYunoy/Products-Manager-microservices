@@ -4,7 +4,6 @@ import com.productservice.entity.Product;
 import com.productservice.mapper.ProductMapper;
 import com.productservice.model.ProductDTO;
 import com.productservice.repository.ProductRepository;
-import com.productservice.utils.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +35,6 @@ public class ProductService {
     }
 
     public ProductDTO updateProduct(String id, ProductDTO productDTO) {
-        Product existingProduct = productRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Product not found with ID: " + id));
 
         Product updatedProduct = Product.builder()
                 .id(id)
@@ -50,8 +47,6 @@ public class ProductService {
     }
 
     public void deleteProduct(String id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Product not found"));
-        productRepository.delete(product);
+        productRepository.deleteById(id);
     }
 }

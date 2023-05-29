@@ -46,7 +46,7 @@ public class OrderController {
             orderService.updateOrder(orderDTO);
             return ResponseEntity.created(URI.create("/orders/" + Id)).build();
         } else {
-            throw new IllegalArgumentException("Order not found");
+            throw new NotFoundException("Order not found");
         }
     }
 

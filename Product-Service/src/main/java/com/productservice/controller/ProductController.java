@@ -27,7 +27,8 @@ public class ProductController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Optional<ProductDTO> getProductById(@PathVariable("id") String id) {
-        return Optional.ofNullable(productService.getProductById(id).orElseThrow(NotFoundException::new));
+        return Optional.ofNullable(productService.getProductById(id)
+                .orElseThrow(NotFoundException::new));
     }
 
     @PostMapping
@@ -38,13 +39,24 @@ public class ProductController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ProductDTO updateProduct(@PathVariable("id") String id,@Validated @RequestBody ProductDTO productDTO) {
-        return productService.updateProduct(id, productDTO);
+    public ProductDTO updateProduct(@PathVariable("id") String id, @Validated @RequestBody ProductDTO productDTO) {
+        Optional<ProductDTO> existingProductDTO = productService.getProductById(id);
+        if (existingProductDTO.isPresent()) {
+            return productService.updateProduct(id, productDTO);
+        } else {
+            throw new NotFoundException("Product not found");
+        }
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable("id") String id) {
-        productService.deleteProduct(id);
+        Optional<ProductDTO> existingProductDTO = productService.getProductById(id);
+        if (existingProductDTO.isPresent()) {
+            productService.deleteProduct(id);
+        } else {
+            throw new NotFoundException("Product not found");
+        }
     }
+
 }
