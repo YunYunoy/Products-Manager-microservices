@@ -20,22 +20,22 @@ public class DataLoad implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         Inventory inventory1 = Inventory.builder()
-                .itemCode("Item A")
+                .itemCode("Item_A")
                 .quantity(100)
                 .build();
 
         Inventory inventory2 = Inventory.builder()
-                .itemCode("Item B")
+                .itemCode("Item_B")
                 .quantity(50)
                 .build();
 
         Inventory inventory3 = Inventory.builder()
-                .itemCode("Item C")
+                .itemCode("Item_C")
                 .quantity(25)
                 .build();
 
         Inventory inventory4 = Inventory.builder()
-                .itemCode("Item D")
+                .itemCode("Item_D")
                 .quantity(0)
                 .build();
 

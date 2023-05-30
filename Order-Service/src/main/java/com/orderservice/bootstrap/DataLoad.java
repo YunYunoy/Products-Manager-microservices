@@ -22,45 +22,42 @@ public class DataLoad implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         Order order1 = Order.builder()
-                .orderNumber("Order #1")
                 .description("short passionate description")
                 .itemsList(Arrays.asList(OrderLineItem.builder()
-                                .itemCode("Item A")
+                                .itemCode("Item_A")
                                 .price(BigDecimal.valueOf(10.0))
                                 .quantity(1)
                                 .build(),
                         OrderLineItem.builder()
-                                .itemCode("Item B")
+                                .itemCode("Item_C")
                                 .price(BigDecimal.valueOf(5.0))
                                 .quantity(3)
                                 .build()))
                 .build();
 
         Order order2 = Order.builder()
-                .orderNumber("Order #2")
                 .description("short passionate description")
                 .itemsList(Arrays.asList(OrderLineItem.builder()
-                                .itemCode("Item B")
+                                .itemCode("Item_B")
                                 .price(BigDecimal.valueOf(5.0))
                                 .quantity(2)
                                 .build(),
                         OrderLineItem.builder()
-                                .itemCode("Item C")
+                                .itemCode("Item_A")
                                 .price(BigDecimal.valueOf(2.0))
                                 .quantity(4)
                                 .build()))
                 .build();
 
         Order order3 = Order.builder()
-                .orderNumber("Order #3")
                 .description("short passionate description")
                 .itemsList(Arrays.asList(OrderLineItem.builder()
-                                .itemCode("Item D")
+                                .itemCode("Item_A")
                                 .price(BigDecimal.valueOf(10.0))
                                 .quantity(100)
                                 .build(),
                         OrderLineItem.builder()
-                                .itemCode("Item E")
+                                .itemCode("Item_C")
                                 .price(BigDecimal.valueOf(5.0))
                                 .quantity(20)
                                 .build()))

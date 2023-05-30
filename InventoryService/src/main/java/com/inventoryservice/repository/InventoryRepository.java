@@ -3,9 +3,9 @@ package com.inventoryservice.repository;
 import com.inventoryservice.entity.Inventory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
 
-    Optional<Inventory> findByItemCode(String itemCode);
+    List<Inventory> findByItemCodeIn(List<String> itemCode);
 }
