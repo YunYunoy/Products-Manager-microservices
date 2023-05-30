@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -57,8 +58,6 @@ public class OrderService {
                 .map(OrderLineItem::getItemCode)
                 .toList();
 
-        log.info("queried item list :"+lineItems.toString());
-
         InventoryResponse[] inventoryResponses = webClient.get()
                 .uri("http://localhost:8082/inventory",
                         uriBuilder -> uriBuilder.queryParam("itemCode", itemCodes).build())
@@ -68,12 +67,20 @@ public class OrderService {
 
         boolean productsInStock = Arrays.stream(inventoryResponses).allMatch(InventoryResponse::isInStock);
 
-        if (productsInStock) {
+        boolean allItemsExistInInventory = new HashSet<>(Arrays.stream(inventoryResponses)
+                .map(InventoryResponse::getItemCode)
+                .collect(Collectors.toList()))
+                .containsAll(itemCodes);
+
+        if (productsInStock && allItemsExistInInventory) {
             return orderMapper.toDTO(orderRepository.save(order));
         } else {
-            throw new IllegalArgumentException("Product out of stock");
+            if (!allItemsExistInInventory) {
+                throw new IllegalArgumentException("One or more items do not exist in inventory");
+            } else {
+                throw new IllegalArgumentException("One or more products are out of stock");
+            }
         }
-
     }
 
 
