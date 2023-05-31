@@ -17,7 +17,7 @@ public class InventoryController {
 
 
     // http://localhost:8082/inventory?itemCode=Item_A&itemCode=Item_B
-    // http://localhost:8082/inventory?itemCodes=Item_B
+    // http://Inventory_Service/inventory?itemCode=Item_A
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

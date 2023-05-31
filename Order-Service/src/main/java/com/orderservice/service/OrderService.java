@@ -28,7 +28,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final OrderLineItemMapper orderLineItemMapper;
-    private final WebClient webClient;
+    private final WebClient.Builder webClient;
 
     public List<OrderDTO> getAllOrders() {
         return orderRepository.findAll().stream()
@@ -58,8 +58,8 @@ public class OrderService {
                 .map(OrderLineItem::getItemCode)
                 .toList();
 
-        InventoryResponse[] inventoryResponses = webClient.get()
-                .uri("http://localhost:8082/inventory",
+        InventoryResponse[] inventoryResponses = webClient.build().get()
+                .uri("http://Inventory-Service/inventory",
                         uriBuilder -> uriBuilder.queryParam("itemCode", itemCodes).build())
                 .retrieve()
                 .bodyToMono(InventoryResponse[].class)
