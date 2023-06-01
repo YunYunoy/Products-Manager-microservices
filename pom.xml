@@ -20,6 +20,7 @@
         <module>InventoryService</module>
         <module>Order-Service</module>
         <module>Discovery-Service</module>
+        <module>API-Gateway</module>
     </modules>
     <version>1.0-SNAPSHOT</version>
 
