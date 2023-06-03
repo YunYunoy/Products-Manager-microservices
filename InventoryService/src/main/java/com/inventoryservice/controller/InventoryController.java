@@ -24,4 +24,6 @@ public class InventoryController {
     public List<InventoryResponse> isInInventory(@RequestParam List<String> itemCode) {
         return inventoryService.isInInventory(itemCode);
     }
+
+    //TODO: implement CRUD methods from inventoryService
 }

@@ -25,4 +25,8 @@ public class InventoryService {
 
                 ).toList();
     }
+
+//TODO: create CRUD methods
+
+
 }

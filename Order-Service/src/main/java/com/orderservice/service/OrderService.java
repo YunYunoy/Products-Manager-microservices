@@ -2,13 +2,15 @@ package com.orderservice.service;
 
 import com.orderservice.entity.Order;
 import com.orderservice.entity.OrderLineItem;
+import com.orderservice.event.OrderCreatedEvent;
 import com.orderservice.mapper.OrderLineItemMapper;
 import com.orderservice.mapper.OrderMapper;
 import com.orderservice.model.InventoryResponse;
 import com.orderservice.model.OrderDTO;
 import com.orderservice.repository.OrderRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -20,7 +22,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Transactional
 @Slf4j
 public class OrderService {
@@ -29,6 +31,7 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final OrderLineItemMapper orderLineItemMapper;
     private final WebClient.Builder webClient;
+    private final KafkaTemplate<String, OrderCreatedEvent> kafkaTemplate;
 
     public List<OrderDTO> getAllOrders() {
         return orderRepository.findAll().stream()
@@ -43,6 +46,8 @@ public class OrderService {
         return orderMapper.toDTO(order);
     }
 
+
+    //TODO: implement connection with inventory_service for changing items.quantities
     public OrderDTO createOrder(OrderDTO orderDTO) {
         Order order = Order.builder()
                 .orderNumber(UUID.randomUUID().toString())
@@ -73,6 +78,7 @@ public class OrderService {
                 .containsAll(itemCodes);
 
         if (productsInStock && allItemsExistInInventory) {
+            kafkaTemplate.send("orderNotification", new OrderCreatedEvent(order.getOrderNumber()));
             return orderMapper.toDTO(orderRepository.save(order));
         } else {
             if (!allItemsExistInInventory) {
@@ -84,11 +90,36 @@ public class OrderService {
     }
 
 
+    //TODO: implement connection with inventory_service for changing items.quantities
     public void updateOrder(OrderDTO orderDTO) {
         orderMapper.toDTO(orderRepository.save(orderMapper.toEntity(orderDTO)));
     }
 
+
+    //TODO: implement connection with inventory_service for changing items.quantities
     public void deleteOrder(Long orderId) {
         orderRepository.deleteById(orderId);
     }
+
+
+    //TODO: to upgrade checking quantity availability and insert into createOrder method
+    private boolean checkProductsAvailability(List<String> itemCodes) {
+        InventoryResponse[] inventoryResponses = webClient.build().get()
+                .uri("http://Inventory-Service/inventory",
+                        uriBuilder -> uriBuilder.queryParam("itemCode", itemCodes).build())
+                .retrieve()
+                .bodyToMono(InventoryResponse[].class)
+                .block();
+
+        boolean productsInStock = Arrays.stream(inventoryResponses).allMatch(InventoryResponse::isInStock);
+
+        boolean allItemsExistInInventory = new HashSet<>(Arrays.stream(inventoryResponses)
+                .map(InventoryResponse::getItemCode)
+                .collect(Collectors.toList()))
+                .containsAll(itemCodes);
+
+        return productsInStock && allItemsExistInInventory;
+    }
+
+
 }
