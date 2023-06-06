@@ -7,6 +7,7 @@ import com.orderservice.mapper.OrderLineItemMapper;
 import com.orderservice.mapper.OrderMapper;
 import com.orderservice.model.InventoryResponse;
 import com.orderservice.model.OrderDTO;
+import com.orderservice.model.OrderLineItemDTO;
 import com.orderservice.repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,8 +45,7 @@ public class OrderService {
     }
 
 
-    //TODO: implement connection with inventory_service for changing items.quantities
-    public OrderDTO createOrder(OrderDTO orderDTO) {
+    public OrderDTO createMultipleOrders(OrderDTO orderDTO) {
         Order order = Order.builder()
                 .orderNumber(UUID.randomUUID().toString())
                 .description(orderDTO.getDescription())
@@ -70,55 +67,42 @@ public class OrderService {
                 .bodyToMono(InventoryResponse[].class)
                 .block();
 
-        boolean productsInStock = Arrays.stream(inventoryResponses).allMatch(InventoryResponse::isInStock);
+        Map<String, Integer> requestedQuantities = orderDTO.getItemsList().stream()
+                .collect(Collectors.toMap(OrderLineItemDTO::getItemCode, OrderLineItemDTO::getQuantity));
+
+        Map<String, Integer> inventoryQuantities = Arrays.stream(inventoryResponses)
+                .collect(Collectors.toMap(InventoryResponse::getItemCode, InventoryResponse::getQuantity));
+
+        for (String itemCode : itemCodes) {
+            int requestedQuantity = requestedQuantities.getOrDefault(itemCode, 0);
+            int inventoryQuantity = inventoryQuantities.getOrDefault(itemCode, 0);
+
+            if (requestedQuantity > inventoryQuantity) {
+                throw new IllegalArgumentException("Requested quantity for item " + itemCode + " exceeds available quantity");
+            }
+        }
 
         boolean allItemsExistInInventory = new HashSet<>(Arrays.stream(inventoryResponses)
                 .map(InventoryResponse::getItemCode)
                 .collect(Collectors.toList()))
                 .containsAll(itemCodes);
 
-        if (productsInStock && allItemsExistInInventory) {
+        if (allItemsExistInInventory) {
             kafkaTemplate.send("orderNotification", new OrderCreatedEvent(order.getOrderNumber()));
             return orderMapper.toDTO(orderRepository.save(order));
         } else {
-            if (!allItemsExistInInventory) {
-                throw new IllegalArgumentException("One or more items do not exist in inventory");
-            } else {
-                throw new IllegalArgumentException("One or more products are out of stock");
-            }
+            throw new IllegalArgumentException("One or more items do not exist in inventory");
         }
     }
 
 
-    //TODO: implement connection with inventory_service for changing items.quantities
     public void updateOrder(OrderDTO orderDTO) {
         orderMapper.toDTO(orderRepository.save(orderMapper.toEntity(orderDTO)));
     }
 
 
-    //TODO: implement connection with inventory_service for changing items.quantities
     public void deleteOrder(Long orderId) {
         orderRepository.deleteById(orderId);
-    }
-
-
-    //TODO: to upgrade checking quantity availability and insert into createOrder method
-    private boolean checkProductsAvailability(List<String> itemCodes) {
-        InventoryResponse[] inventoryResponses = webClient.build().get()
-                .uri("http://Inventory-Service/inventory",
-                        uriBuilder -> uriBuilder.queryParam("itemCode", itemCodes).build())
-                .retrieve()
-                .bodyToMono(InventoryResponse[].class)
-                .block();
-
-        boolean productsInStock = Arrays.stream(inventoryResponses).allMatch(InventoryResponse::isInStock);
-
-        boolean allItemsExistInInventory = new HashSet<>(Arrays.stream(inventoryResponses)
-                .map(InventoryResponse::getItemCode)
-                .collect(Collectors.toList()))
-                .containsAll(itemCodes);
-
-        return productsInStock && allItemsExistInInventory;
     }
 
 

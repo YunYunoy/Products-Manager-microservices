@@ -31,14 +31,12 @@ public class OrderController {
                 .orElseThrow(NotFoundException::new);
     }
 
-    //TODO: check method
     @PostMapping
     public ResponseEntity<OrderDTO> createOrder( @RequestBody OrderDTO orderDTO) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(orderService.createOrder(orderDTO));
+                .body(orderService.createMultipleOrders(orderDTO));
     }
 
-    //TODO: check method
     @PutMapping("/{Id}")
     public ResponseEntity<Void> updateOrder(@PathVariable Long Id,@Validated @RequestBody OrderDTO orderDTO) {
         OrderDTO existingOrder = orderService.getOrderById(Id);
