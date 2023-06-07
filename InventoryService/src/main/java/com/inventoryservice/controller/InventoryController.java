@@ -41,7 +41,7 @@ public class InventoryController {
 
     @PutMapping("/{itemCode}")
     public ResponseEntity<InventoryDTO> updateInventory(@PathVariable String itemCode,@Validated @RequestBody InventoryDTO inventoryDTO) {
-        InventoryDTO updatedInventory = inventoryService.updateInventory(itemCode, inventoryDTO);
+        InventoryDTO updatedInventory = inventoryService.updateInventoryName(itemCode, inventoryDTO);
         return ResponseEntity.ok(updatedInventory);
     }
 

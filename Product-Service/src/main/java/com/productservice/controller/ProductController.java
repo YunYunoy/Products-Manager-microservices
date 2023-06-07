@@ -37,25 +37,25 @@ public class ProductController {
         return productService.createProduct(productDTO);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{name}")
     @ResponseStatus(HttpStatus.OK)
-    public ProductDTO updateProduct(@PathVariable("id") String id, @Validated @RequestBody ProductDTO productDTO) {
-        Optional<ProductDTO> existingProductDTO = productService.getProductById(id);
+    public ProductDTO updateProduct(@PathVariable("name") String name, @Validated @RequestBody ProductDTO productDTO) {
+        Optional<ProductDTO> existingProductDTO = productService.getProductByName(name);
         if (existingProductDTO.isPresent()) {
-            return productService.updateProduct(id, productDTO);
+            return productService.updateProduct(name, productDTO);
         } else {
             throw new NotFoundException("Product not found");
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{name}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProduct(@PathVariable("id") String id) {
-        Optional<ProductDTO> existingProductDTO = productService.getProductById(id);
+    public void deleteProduct(@PathVariable("name") String name) {
+        Optional<ProductDTO> existingProductDTO = productService.getProductByName(name);
         if (existingProductDTO.isPresent()) {
-            productService.deleteProduct(id);
+            productService.deleteProductByName(name);
         } else {
-            throw new NotFoundException("Product not found");
+            throw new NotFoundException();
         }
     }
 

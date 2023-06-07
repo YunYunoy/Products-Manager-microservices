@@ -50,22 +50,18 @@ public class InventoryService {
         return inventoryMapper.toDTO(inventoryRepository.save(inventory));
     }
 
-    public InventoryDTO updateInventory(String itemCode, InventoryDTO inventoryDTO) {
-        Inventory inventory = inventoryRepository.findByItemCode(itemCode)
-                .orElseThrow(() -> new IllegalArgumentException("Inventory not found with item code: " + itemCode));
+    public InventoryDTO updateInventoryName(String itemCode, InventoryDTO inventoryDTO) {
+        Inventory existingInventory = inventoryRepository.findByItemCode(itemCode)
+                .orElseThrow(() -> new IllegalArgumentException("Oops... something went wrong"));
 
-        Inventory updatedInventory = Inventory.builder()
-                .id(inventory.getId())
-                .itemCode(inventoryDTO.getItemCode())
-                .quantity(inventoryDTO.getQuantity())
-                .build();
+        existingInventory.setItemCode(inventoryDTO.getItemCode());
 
-        return inventoryMapper.toDTO(inventoryRepository.save(updatedInventory));
+        return inventoryMapper.toDTO(inventoryRepository.save(existingInventory));
     }
 
 
     public void deleteInventory(String itemCode) {
-        Inventory inventory = inventoryRepository.findByItemCode(itemCode)
+       inventoryRepository.findByItemCode(itemCode)
                 .orElseThrow(() -> new IllegalArgumentException("Inventory not found with item code: " + itemCode));
 
         inventoryRepository.deleteByItemCode(itemCode);

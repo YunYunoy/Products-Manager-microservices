@@ -36,9 +36,9 @@ public class ApiGatewayConfig {
                         .uri("lb://Product-Service"))
                 .route("products_create", r -> r.path("/products")
                         .uri("lb://Product-Service"))
-                .route("products_update", r -> r.path("/products/{id}")
+                .route("products_update", r -> r.path("/products/{name}")
                         .uri("lb://Product-Service"))
-                .route("products_delete", r -> r.path("/products/{id}")
+                .route("products_delete", r -> r.path("/products/{name}")
                         .uri("lb://Product-Service"))
 
                 //Order-Service
