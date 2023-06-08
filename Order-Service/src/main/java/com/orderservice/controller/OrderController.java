@@ -34,7 +34,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<OrderDTO> createOrder( @RequestBody OrderDTO orderDTO) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(orderService.createMultipleOrders(orderDTO));
+                .body(orderService.createOrder(orderDTO));
     }
 
     @PutMapping("/{Id}")

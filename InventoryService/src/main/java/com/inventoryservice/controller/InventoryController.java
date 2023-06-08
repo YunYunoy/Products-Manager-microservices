@@ -40,7 +40,7 @@ public class InventoryController {
     }
 
     @PutMapping("/{itemCode}")
-    public ResponseEntity<InventoryDTO> updateInventory(@PathVariable String itemCode,@Validated @RequestBody InventoryDTO inventoryDTO) {
+    public ResponseEntity<InventoryDTO> updateInventory(@PathVariable String itemCode, @Validated @RequestBody InventoryDTO inventoryDTO) {
         InventoryDTO updatedInventory = inventoryService.updateInventoryName(itemCode, inventoryDTO);
         return ResponseEntity.ok(updatedInventory);
     }
@@ -53,9 +53,9 @@ public class InventoryController {
     }
 
     @PutMapping("/{itemCode}/subtract/{quantity}")
-    public ResponseEntity<InventoryDTO> subtractQuantity(@PathVariable String itemCode, @PathVariable Integer quantity) {
-        InventoryDTO updatedInventory = inventoryService.subtractQuantity(itemCode, quantity);
-        return ResponseEntity.ok(updatedInventory);
+    @ResponseStatus(HttpStatus.OK)
+    public void subtractQuantity(@PathVariable String itemCode, @PathVariable Integer quantity) {
+        inventoryService.subtractQuantity(itemCode, quantity);
     }
 
     @DeleteMapping("/{itemCode}")
