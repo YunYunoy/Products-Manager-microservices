@@ -29,7 +29,7 @@ public class OrderControllerAdvice {
                 .body("Order not found: " + ex.getMessage());
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler(NotValidatedException.class)
     public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
         BindingResult bindingResult = ex.getBindingResult();
         List<ObjectError> errors = bindingResult.getAllErrors();

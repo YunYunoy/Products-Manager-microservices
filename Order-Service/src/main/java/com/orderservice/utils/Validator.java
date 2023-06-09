@@ -13,27 +13,27 @@ import java.util.stream.Collectors;
 @Service
 public class Validator {
 
-    public void  validateGetInventories(OrderDTO orderDTO,InventoryResponse[] inventoryResponses, List<String> itemCodes) {
+    public void  validateGetInventories(OrderDTO orderDTO,InventoryResponse[] inventoryResponses, List<String> names) {
         Map<String, Integer> requestedQuantities = orderDTO.getItemsList().stream()
                 .collect(Collectors.toMap(OrderLineItemDTO::getItemCode, OrderLineItemDTO::getQuantity));
 
         Map<String, Integer> inventoryQuantities = Arrays.stream(inventoryResponses)
                 .collect(Collectors.toMap(InventoryResponse::getItemCode, InventoryResponse::getQuantity));
 
-        boolean isQuantityValid = itemCodes.stream()
+        boolean isQuantityValid = names.stream()
                 .allMatch(itemCode -> requestedQuantities.getOrDefault(itemCode, 0) <= inventoryQuantities.getOrDefault(itemCode, 0));
 
         boolean allItemsExistInInventory = Arrays.stream(inventoryResponses)
                 .map(InventoryResponse::getItemCode)
                 .collect(Collectors.toSet())
-                .containsAll(itemCodes);
+                .containsAll(names);
 
         if (!isQuantityValid) {
-            throw new IllegalArgumentException("Requested quantity for one or more items exceeds available quantity");
+            throw new NotValidatedException("Requested quantity for one or more items exceeds available quantity");
         }
 
         if (!allItemsExistInInventory) {
-            throw new IllegalArgumentException("One or more items do not exist in inventory");
+            throw new NotValidatedException("One or more items do not exist in inventory");
         }
     }
 

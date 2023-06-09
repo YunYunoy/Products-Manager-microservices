@@ -2,7 +2,6 @@ package com.orderservice.controller;
 
 import com.orderservice.model.OrderDTO;
 import com.orderservice.service.OrderService;
-import com.orderservice.utils.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")
@@ -27,8 +25,8 @@ public class OrderController {
 
     @GetMapping("/{Id}")
     public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long Id) {
-        return Optional.of(ResponseEntity.ok(orderService.getOrderById(Id)))
-                .orElseThrow(NotFoundException::new);
+        return ResponseEntity.ok(orderService.getOrderById(Id));
+
     }
 
     @PostMapping
@@ -39,23 +37,13 @@ public class OrderController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateOrder(@PathVariable Long id, @Validated @RequestBody OrderDTO orderDTO) {
-        OrderDTO existingOrder = orderService.getOrderById(id);
-        if (existingOrder != null) {
-            orderService.updateOrder(id, orderDTO);
-            return ResponseEntity.created(URI.create("/orders/" + id)).build();
-        } else {
-            throw new NotFoundException("Order not found");
-        }
+        orderService.updateOrder(id, orderDTO);
+        return ResponseEntity.created(URI.create("/orders/" + id)).build();
     }
 
     @DeleteMapping("/{Id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long Id) {
-        OrderDTO existingOrder = orderService.getOrderById(Id);
-        if (existingOrder != null) {
-            orderService.deleteOrder(Id);
-            return ResponseEntity.noContent().build();
-        } else {
-            throw new IllegalArgumentException("Order not found");
-        }
+        orderService.deleteOrder(Id);
+        return ResponseEntity.noContent().build();
     }
 }

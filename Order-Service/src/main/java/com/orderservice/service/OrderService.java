@@ -9,6 +9,7 @@ import com.orderservice.model.InventoryResponse;
 import com.orderservice.model.OrderDTO;
 import com.orderservice.model.ProductResponse;
 import com.orderservice.repository.OrderRepository;
+import com.orderservice.utils.NotFoundException;
 import com.orderservice.utils.Validator;
 import com.orderservice.web.WebHandler;
 import lombok.AllArgsConstructor;
@@ -46,7 +47,7 @@ public class OrderService {
 
     public OrderDTO getOrderById(Long orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+                .orElseThrow(() -> new NotFoundException("Order not found"));
         return orderMapper.toDTO(order);
     }
 
@@ -90,7 +91,7 @@ public class OrderService {
 
     public void updateOrder(Long id, OrderDTO orderDTO) {
         orderRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+                .orElseThrow(() -> new NotFoundException("Order not found"));
 
         deleteOrder(id);
         createOrder(orderDTO);
