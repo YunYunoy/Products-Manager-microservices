@@ -32,17 +32,17 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderDTO> createOrder( @RequestBody OrderDTO orderDTO) {
+    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(orderService.createOrder(orderDTO));
     }
 
-    @PutMapping("/{Id}")
-    public ResponseEntity<Void> updateOrder(@PathVariable Long Id,@Validated @RequestBody OrderDTO orderDTO) {
-        OrderDTO existingOrder = orderService.getOrderById(Id);
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateOrder(@PathVariable Long id, @Validated @RequestBody OrderDTO orderDTO) {
+        OrderDTO existingOrder = orderService.getOrderById(id);
         if (existingOrder != null) {
-            orderService.updateOrder(orderDTO);
-            return ResponseEntity.created(URI.create("/orders/" + Id)).build();
+            orderService.updateOrder(id, orderDTO);
+            return ResponseEntity.created(URI.create("/orders/" + id)).build();
         } else {
             throw new NotFoundException("Order not found");
         }

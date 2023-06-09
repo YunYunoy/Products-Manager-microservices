@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Builder
+@ToString
 public class OrderLineItemDTO {
 
     @JsonIgnore
@@ -20,8 +21,6 @@ public class OrderLineItemDTO {
 
     private String itemCode;
 
-    @Positive
-    @NotNull
     private BigDecimal price;
 
     @Positive

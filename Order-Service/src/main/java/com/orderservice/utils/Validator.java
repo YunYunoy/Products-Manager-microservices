@@ -6,7 +6,6 @@ import com.orderservice.model.OrderLineItemDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 @Service
 public class Validator {
 
-    public boolean validateGetInventories(OrderDTO orderDTO,InventoryResponse[] inventoryResponses, List<String> itemCodes) {
+    public void  validateGetInventories(OrderDTO orderDTO,InventoryResponse[] inventoryResponses, List<String> itemCodes) {
         Map<String, Integer> requestedQuantities = orderDTO.getItemsList().stream()
                 .collect(Collectors.toMap(OrderLineItemDTO::getItemCode, OrderLineItemDTO::getQuantity));
 
@@ -24,9 +23,9 @@ public class Validator {
         boolean isQuantityValid = itemCodes.stream()
                 .allMatch(itemCode -> requestedQuantities.getOrDefault(itemCode, 0) <= inventoryQuantities.getOrDefault(itemCode, 0));
 
-        boolean allItemsExistInInventory = new HashSet<>(Arrays.stream(inventoryResponses)
+        boolean allItemsExistInInventory = Arrays.stream(inventoryResponses)
                 .map(InventoryResponse::getItemCode)
-                .collect(Collectors.toList()))
+                .collect(Collectors.toSet())
                 .containsAll(itemCodes);
 
         if (!isQuantityValid) {
@@ -36,7 +35,6 @@ public class Validator {
         if (!allItemsExistInInventory) {
             throw new IllegalArgumentException("One or more items do not exist in inventory");
         }
-        return true;
     }
 
 

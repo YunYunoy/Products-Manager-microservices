@@ -29,6 +29,12 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    public List<ProductDTO> getProducts(List<String> names) {
+        return productRepository.findByNameIn(names).stream()
+                .map(productMapper::toDTO)
+                .toList();
+    }
+
     public Optional<ProductDTO> getProductById(String id) {
         return productRepository.findById(id)
                 .map(productMapper::toDTO);

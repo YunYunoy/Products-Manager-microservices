@@ -1,6 +1,7 @@
 package com.orderservice.web;
 
 import com.orderservice.model.InventoryResponse;
+import com.orderservice.model.ProductResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -29,6 +30,24 @@ public class WebHandler {
                 .toBodilessEntity()
                 .block();
     }
+
+    public void addQuantity(String itemCode, Integer quantity) {
+        webClient.build().put()
+                .uri("http://Inventory-Service/inventory/{itemCode}/add/{quantity}", itemCode, quantity)
+                .retrieve()
+                .toBodilessEntity()
+                .block();
+    }
+
+    public ProductResponse[] getProducts(List<String> names) {
+        return webClient.build().get()
+                .uri("http://Product-Service/products",
+                        uriBuilder -> uriBuilder.queryParam("names", names).build())
+                .retrieve()
+                .bodyToMono(ProductResponse[].class)
+                .block();
+    }
+
 }
 
 

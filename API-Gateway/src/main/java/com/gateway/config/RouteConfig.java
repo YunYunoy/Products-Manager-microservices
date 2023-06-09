@@ -30,7 +30,10 @@ public class RouteConfig {
                         .uri("lb://Inventory-Service"))
 
                 //Product-Service
-                .route("products_get_all", r -> r.path("/products")
+                .route("products_get_all", r -> r.path("/products/all")
+                        .uri("lb://Product-Service"))
+                .route("products_get_products", r -> r.path("/products")
+                        .and().query("names")
                         .uri("lb://Product-Service"))
                 .route("products_get_by_id", r -> r.path("/products/{id}")
                         .uri("lb://Product-Service"))

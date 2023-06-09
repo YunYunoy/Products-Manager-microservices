@@ -19,8 +19,6 @@ public class InventoryController {
 
     private final InventoryService inventoryService;
 
-
-    // http://Inventory_Service/inventory?itemCode=Item_A&itemCode=Item_B
     @GetMapping
     public ResponseEntity<List<InventoryDTO>> getInventories(@RequestParam List<String> itemCode) {
         return ResponseEntity.ok(inventoryService.getInventories(itemCode));

@@ -5,6 +5,7 @@ import com.productservice.service.ProductService;
 import com.productservice.utils.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +19,15 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping
+    @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public List<ProductDTO> getAllProducts() {
         return productService.getAllProducts();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ProductDTO>> getProducts(@RequestParam List<String> names) {
+        return ResponseEntity.ok(productService.getProducts(names));
     }
 
     @GetMapping("/{id}")
