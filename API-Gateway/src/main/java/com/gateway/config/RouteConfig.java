@@ -56,6 +56,13 @@ public class RouteConfig {
                 .route("orders_delete", r -> r.path("/orders/{id}")
                         .uri("lb://Order-Service"))
 
+                //User-Service
+                .route("user_sign_in", r -> r.path("/auth/signin")
+                        .uri("lb://User-Service"))
+                .route("user_sign_up", r -> r.path("/auth/signup")
+                        .uri("lb://User-Service"))
+
+
                 .build();
     }
 }

@@ -36,6 +36,20 @@ services:
     ports:
       - "3307:3306"
 
+  db_users:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: UserService
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
+    ports:
+      - "3308:3306"
+
+
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.2
     container_name: zookeeper

@@ -23,6 +23,7 @@
         <module>API-Gateway</module>
         <module>OAuth2Server</module>
         <module>Notification-Service</module>
+        <module>UserService</module>
     </modules>
     <version>1.0-SNAPSHOT</version>
 
