@@ -29,11 +29,11 @@ public class Validator {
                 .containsAll(names);
 
         if (!isQuantityValid) {
-            throw new NotValidatedException("Requested quantity for one or more items exceeds available quantity");
+            throw new InventoryException("Requested quantity for one or more items exceeds available quantity");
         }
 
         if (!allItemsExistInInventory) {
-            throw new NotValidatedException("One or more items do not exist in inventory");
+            throw new InventoryException("One or more items do not exist in inventory");
         }
     }
 
