@@ -18,11 +18,11 @@ public class InventoryDTO {
     @JsonIgnore
     private Long id;
 
-    @NotBlank
-    @Size(max = 255)
+    @NotBlank(message = "Item code is required")
+    @Size(max = 255, message = "Item code must be at most 255 characters")
     private String itemCode;
 
-    @Min(0)
+    @Min(value = 0, message = "Quantity must be a positive or zero value")
     @Builder.Default
     private Integer quantity = 0;
 }
