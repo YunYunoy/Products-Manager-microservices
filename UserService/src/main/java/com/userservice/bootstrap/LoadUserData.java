@@ -38,6 +38,11 @@ public class LoadUserData implements ApplicationRunner {
                 .username("user")
                 .password(passwordEncoder.encode("user"))
                 .email("user@email.com")
+                .termsAccepted(true)
+                .postalCode("12-345")
+                .street("street")
+                .city("city")
+                .phoneNumber("123-456-789")
                 .authority(userRole)
                 .build());
 
@@ -45,6 +50,11 @@ public class LoadUserData implements ApplicationRunner {
                 .username("admin")
                 .password(passwordEncoder.encode("admin"))
                 .email("admin@email.com")
+                .termsAccepted(true)
+                .postalCode("12-345")
+                .street("street")
+                .city("city")
+                .phoneNumber("123-456-789")
                 .authority(admin)
                 .build());
 

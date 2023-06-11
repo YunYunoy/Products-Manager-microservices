@@ -1,7 +1,6 @@
 package com.userservice.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.util.Set;
@@ -26,8 +25,13 @@ public class User {
     private String password;
 
     @Column(unique = true)
-    @Email
     private String email;
+
+    private String phoneNumber;
+    private String street;
+    private String city;
+    private String postalCode;
+    private boolean termsAccepted;
 
     @Singular
     @ManyToMany(cascade = CascadeType.MERGE)
