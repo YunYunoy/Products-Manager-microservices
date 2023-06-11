@@ -1,6 +1,7 @@
 package com.orderservice.utils;
 
 import com.orderservice.controller.OrderController;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -8,7 +9,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,4 +40,5 @@ public class OrderControllerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body("Validation error: " + errorMessage);
     }
+
 }

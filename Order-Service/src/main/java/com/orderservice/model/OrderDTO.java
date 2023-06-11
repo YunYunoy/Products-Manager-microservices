@@ -18,10 +18,10 @@ public class OrderDTO {
     private Long id;
     private String orderNumber;
 
-    @Size(max = 255)
+    @Size(max = 255, message = "Description must be at most 255 characters")
     private String description;
 
-    @NotEmpty
+    @NotEmpty(message = "Order items list cannot be empty")
     @Valid
     private List<OrderLineItemDTO> itemsList;
 }
