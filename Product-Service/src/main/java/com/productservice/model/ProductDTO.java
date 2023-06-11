@@ -23,14 +23,15 @@ public class ProductDTO {
     @JsonIgnore
     private String id;
 
-    @NotBlank
-    @Size(min = 3, max = 255)
-    @NotNull
+    @NotBlank(message = "Name is required")
+    @Size(min = 3, max = 255, message = "Name must be between 3 and 255 characters")
     private String name;
+
+    @Size(max = 255, message = "Description cannot exceed 255 characters")
     private String description;
 
-    @Positive
-    @NotNull
+    @NotNull(message = "Price is required")
+    @Positive(message = "Price must be a positive value")
     private BigDecimal price;
 }
 

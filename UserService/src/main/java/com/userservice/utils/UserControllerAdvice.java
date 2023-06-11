@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
-public class ControllerAdvice {
+public class UserControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
