@@ -62,6 +62,25 @@ public class RouteConfig {
                 .route("user_sign_up", r -> r.path("/auth/signup")
                         .uri("lb://User-Service"))
 
+                //OpenAPI
+                .route("user_open_api", r -> r.path("/user-service/v3/api-docs")
+                        .uri("lb://User-Service"))
+                .route("product_open_api", r -> r.path("/product-service/v3/api-docs")
+                        .uri("lb://Product-Service"))
+                .route("order_open_api", r -> r.path("/order-service/v3/api-docs")
+                        .uri("lb://Order-Service"))
+                .route("inventory_open_api", r -> r.path("/inventory-service/v3/api-docs")
+                        .uri("lb://Inventory-Service"))
+                //swagger-ui
+                .route("user_swagger-ui.html", r -> r.path("/user-service/swagger-ui.html")
+                        .uri("lb://User-Service"))
+                .route("product_swagger-ui.html", r -> r.path("/product-service/swagger-ui.html")
+                        .uri("lb://Product-Service"))
+                .route("order_swagger-ui.html", r -> r.path("/order-service/swagger-ui.html")
+                        .uri("lb://Order-Service"))
+                .route("inventory_swagger-ui.html", r -> r.path("/inventory-service/swagger-ui.html")
+                        .uri("lb://Inventory-Service"))
+
 
                 .build();
     }
