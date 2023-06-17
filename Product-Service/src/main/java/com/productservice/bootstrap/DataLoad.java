@@ -21,27 +21,27 @@ public class DataLoad implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         Product product1 = Product.builder()
-                .name("Item_A")
-                .description("Description 1")
-                .price(new BigDecimal("10.99"))
+                .name("iPhone_X")
+                .description("Apple iPhone X, 64GB, Space Gray")
+                .price(new BigDecimal("999.99"))
                 .build();
 
         Product product2 = Product.builder()
-                .name("Item_B")
-                .description("Description 2")
-                .price(new BigDecimal("19.99"))
+                .name("Samsung_Galaxy_S21")
+                .description("Samsung Galaxy S21, 128GB, Phantom Black")
+                .price(new BigDecimal("899.99"))
                 .build();
 
         Product product3 = Product.builder()
-                .name("Item_C")
-                .description("Description 3")
-                .price(new BigDecimal("5.99"))
+                .name("Sony_WH_1000XM4")
+                .description("Wireless Noise-Canceling Overhead Headphones")
+                .price(new BigDecimal("349.99"))
                 .build();
 
         Product product4 = Product.builder()
-                .name("Item_D")
-                .description("Description 4")
-                .price(new BigDecimal("15.99"))
+                .name("Nintendo_Switch")
+                .description("Nintendo Switch Console with Neon Blue and Neon Red Joy‑Con")
+                .price(new BigDecimal("299.99"))
                 .build();
 
         productRepository.deleteAll();
