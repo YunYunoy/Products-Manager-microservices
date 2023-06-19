@@ -8,9 +8,9 @@
 - [Dependencies/Technology](#dependenciestechnology)
 - [Getting Started](#getting-started)
 - [API Documentation](#api-documentation)
-- [Database Schema](#database-schema)
 - [Security](#security)
 - [Postman Screenshots](#postman-screenshots)
+- [Database Schema](#database-schema)
 - [Configuration](#configuration)
 - [Contributing](#contributing)
 
@@ -137,9 +137,6 @@ the following URL after running the application:
 - Inventory Service [inventory-service/swagger-ui/index.html](http://localhost:8083/inventory-service/swagger-ui/index.html)
 - User Service [user-service/swagger-ui/index.html](http://localhost:8084/user-service/swagger-ui/index.html)
 
-## Database Schema
-
-![img.png](.img/img_16.png)
 
 ### OpenApi Screenshots
 
@@ -179,6 +176,10 @@ access tokens to authorized client applications.
 ![img_14.png](.img/img_14.png)
 ###### order-controller.DELETE (not-validated-response)
 ![img_15.png](.img/img_15.png)
+
+## Database Schema
+
+![img.png](.img/img_16.png)
 
 ## Configuration
 
