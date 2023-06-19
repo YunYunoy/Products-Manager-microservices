@@ -139,7 +139,7 @@ the following URL after running the application:
 
 ## Database Schema
 
-![img.png](../img.png)
+![img.png](.img/img_16.png)
 
 ### OpenApi Screenshots
 
