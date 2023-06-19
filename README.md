@@ -8,6 +8,7 @@
 - [Dependencies/Technology](#dependenciestechnology)
 - [Getting Started](#getting-started)
 - [API Documentation](#api-documentation)
+- [Database Schema](#database-schema)
 - [Security](#security)
 - [Postman Screenshots](#postman-screenshots)
 - [Configuration](#configuration)
@@ -135,6 +136,10 @@ the following URL after running the application:
 - Order Service [order-service/swagger-ui/index.html](http://localhost:8085/order-service/swagger-ui/index.html)
 - Inventory Service [inventory-service/swagger-ui/index.html](http://localhost:8083/inventory-service/swagger-ui/index.html)
 - User Service [user-service/swagger-ui/index.html](http://localhost:8084/user-service/swagger-ui/index.html)
+
+## Database Schema
+
+![img.png](../img.png)
 
 ### OpenApi Screenshots
 
