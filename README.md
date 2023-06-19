@@ -183,7 +183,7 @@ access tokens to authorized client applications.
 
 ## Configuration
 
-The project's configuration is managed through the `application.properties` and parent `pom.xml` files within each
+The project's configuration is managed through the parent `pom.xml` and `application.properties` files within each
 microservice module. Customize these files according to your specific requirements.
 
 ## Contributing
