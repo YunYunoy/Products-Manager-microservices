@@ -24,13 +24,6 @@ public class InventoryController {
         return ResponseEntity.ok(inventoryService.getInventories(itemCode));
     }
 
-
-    @GetMapping("/{itemCode}")
-    public ResponseEntity<InventoryDTO> getInventoryByItemCode(@PathVariable String itemCode) {
-        InventoryDTO inventoryDTO = inventoryService.getInventoryByItemCode(itemCode);
-        return ResponseEntity.ok(inventoryDTO);
-    }
-
     @PostMapping
     public ResponseEntity<InventoryDTO> createInventory(@Validated @RequestBody InventoryDTO inventoryDTO) {
         InventoryDTO createdInventory = inventoryService.createInventory(inventoryDTO);

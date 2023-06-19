@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -36,9 +35,10 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateOrder(@PathVariable Long id, @Validated @RequestBody OrderDTO orderDTO) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public String updateOrder(@PathVariable Long id, @Validated @RequestBody OrderDTO orderDTO) {
         orderService.updateOrder(id, orderDTO);
-        return ResponseEntity.created(URI.create("/orders/" + id)).build();
+        return "Order has been updated";
     }
 
     @DeleteMapping("/{Id}")

@@ -28,13 +28,18 @@ public class Validator {
                 .collect(Collectors.toSet())
                 .containsAll(names);
 
-        if (!isQuantityValid) {
-            throw new InventoryException("Requested quantity for one or more items exceeds available quantity");
-        }
 
         if (!allItemsExistInInventory) {
             throw new InventoryException("One or more items do not exist in inventory");
         }
+
+        if (!isQuantityValid) {
+            throw new InventoryException("Requested quantity for one or more items exceeds available quantity");
+        }
+
+
+
+
     }
 
 

@@ -3,18 +3,30 @@ version: '3.1'
 services:
 
   mongo:
-      image: mongo
-      restart: always
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: username
-        MONGO_INITDB_ROOT_PASSWORD: password
-        MONGO_INITDB_DATABASE: ProductService
-      ports:
-        - "27017:27017"
+    image: mongo
+    container_name: ProductService
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: username
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: ProductService
+    ports:
+      - "27017:27017"
 
+  mongo-express:
+    image: mongo-express
+    container_name: ProductService-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: username
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_URL: mongodb://username:password@mongo:27017/
 
-  db:
+  db_order:
     image: mysql
+    container_name: OrderService
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
@@ -25,8 +37,15 @@ services:
     ports:
       - "3306:3306"
 
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8090:8080
+
   db_inventory:
     image: mysql
+    container_name: InventoryService
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
@@ -39,6 +58,7 @@ services:
 
   db_users:
     image: mysql
+    container_name: UserService
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:

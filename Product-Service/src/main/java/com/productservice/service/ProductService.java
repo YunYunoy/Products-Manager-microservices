@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -64,7 +65,9 @@ public class ProductService {
             existingProduct.setDescription(productDTO.getDescription());
             existingProduct.setPrice(productDTO.getPrice());
 
-            webHandler.updateInventory(name, new InventoryDTO(productDTO.getName())).block();
+            if(!Objects.equals(name, productDTO.getName())){
+                webHandler.updateInventory(name, new InventoryDTO(productDTO.getName())).block();
+            }
 
             return productMapper.toDTO(productRepository.save(existingProduct));
         }
