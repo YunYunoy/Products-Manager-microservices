@@ -146,8 +146,8 @@ the following URL after running the application:
 ## Security
 The security process follows the OAuth 2.0 protocol, which provides a secure and standardized way 
 for accessing protected resources on behalf of users. The authentication server is responsible for granting 
-access tokens to authorized client applications. For full application access please run OAuth2Server `mvn spring-boot:run`
-and generate/use token:
+access tokens to authorized client applications. 
+- For full application access please run OAuth2Server `mvn spring-boot:run` and generate/use token:
 
 ![img_6.png](.img/img_6.png)
 ![img_5.png](.img/img_5.png)
