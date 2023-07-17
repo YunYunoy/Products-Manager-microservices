@@ -179,7 +179,7 @@ access tokens to authorized client applications.
 
 ## Database Schema
 
-![img.png](.img/img_16.png)
+![img.png](.img/img_16.PNG)
 
 ## Configuration
 
